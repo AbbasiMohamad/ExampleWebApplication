@@ -10,18 +10,18 @@ public class ProductRepository : IProductRepository
     }
     public PagedData<Product> GetAll(int pageSize, int pageNumber)
     {
-        var pagedData = new PagedData<Product>();
-        var totalCount = _context.Products.Count();
-        pagedData.Data = _context.Products
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-        pagedData.PageInfo = new PageInfo
+        var pagedResult = new PagedData<Product>()
         {
-            PageSize = pageSize,
-            PageNumber = pageNumber,
-            TotalCount = totalCount
+            PageInfo = new PageInfo
+            {
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                TotalCount = _context.Products.Count()
+            }
         };
-        return pagedData;
+        pagedResult.Data = _context.Products
+            .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        
+        return pagedResult;
     }
 }
