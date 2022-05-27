@@ -23,7 +23,8 @@ public class PagerTagHelper: TagHelper
     public ViewContext ViewContext { get; set; }
     public PageInfo PagedModel { get; set; }
     public string PageAction { get; set; }
-
+    public string PageClass { get; set; }
+    public string PageClassSelected { get; set; }
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -34,6 +35,10 @@ public class PagerTagHelper: TagHelper
             TagBuilder linkTag = new("a");
             linkTag.Attributes["href"] = urlHelper.Action(PageAction, new { pageNumber = i });
             
+            linkTag.AddCssClass(PageClass);
+            if (i == PagedModel.PageNumber)
+                linkTag.AddCssClass(PageClassSelected);
+
             linkTag.InnerHtml.Append(i.ToString());
             finalTag.InnerHtml.AppendHtml(linkTag);
         }
