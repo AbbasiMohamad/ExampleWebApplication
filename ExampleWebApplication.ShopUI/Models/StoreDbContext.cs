@@ -4,6 +4,10 @@ namespace ExampleWebApplication.ShopUI.Models;
 
 public class StoreDbContext : DbContext
 {
+    // Microsoft.EntityFrameworkCore.SqlServer (for ef classes)
+    // Microsoft.EntityFrameworkCore.Tools (for do migration)
+
+
     //ایجاد جدول و امکان دسترسی به آن جدول
     public DbSet<Product> Products { get; set; }
     public StoreDbContext(DbContextOptions options) : base(options)
