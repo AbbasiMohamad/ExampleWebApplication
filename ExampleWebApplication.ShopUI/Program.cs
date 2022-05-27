@@ -1,9 +1,19 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using ExampleWebApplication.ShopUI.Models;
+using Microsoft.EntityFrameworkCore;
+
+var builder = WebApplication.CreateBuilder(args);
 
 
 /* این متد تمام آبجکت های مورد نیاز در خصوص کار
  * با کنترلرها و ویوها را مهیا میکند*/
 builder.Services.AddControllersWithViews();
+
+/*راه اندازی انتیتی فریمورک*/
+string connectionString = builder.Configuration.GetConnectionString("StoreCnn");
+builder.Services.AddDbContext<StoreDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
 var app = builder.Build();
 
