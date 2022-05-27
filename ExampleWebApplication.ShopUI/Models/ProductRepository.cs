@@ -8,11 +8,20 @@ public class ProductRepository : IProductRepository
     {
         _context = context;
     }
-    public List<Product> GetAll(int pageSize, int pageNumber)
+    public PagedData<Product> GetAll(int pageSize, int pageNumber)
     {
-        return _context.Products
+        var pagedData = new PagedData<Product>();
+        var totalCount = _context.Products.Count();
+        pagedData.Data = _context.Products
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToList();
+        pagedData.PageInfo = new PageInfo
+        {
+            PageSize = pageSize,
+            PageNumber = pageNumber,
+            TotalCount = totalCount
+        };
+        return pagedData;
     }
 }

@@ -1,7 +1,7 @@
-﻿@model List<Product>
+﻿@model PagedData<Product>
 <h1>Welcome To Example Web Application!</h1>
 
-@foreach (var item in Model)
+@foreach (var item in Model.Data)
 {
     <div>
         <h4>@item.Name <small>@item.Price$</small></h4>
