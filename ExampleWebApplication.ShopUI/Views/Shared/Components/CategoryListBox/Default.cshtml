@@ -1,0 +1,13 @@
+﻿@model List<string>
+
+
+@foreach (var item in Model)
+{
+    <a class="btn btn-dark"
+   asp-controller="Home"
+   asp-action="Index"
+   asp-route-category=@item
+   asp-route-pageNumber="1">
+        @item
+    </a>
+}

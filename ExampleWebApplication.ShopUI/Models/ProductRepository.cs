@@ -8,7 +8,7 @@ public class ProductRepository : IProductRepository
     {
         _context = context;
     }
-    public PagedData<Product> GetAll(int pageSize, int pageNumber)
+    public PagedData<Product> GetAll(string category, int pageSize, int pageNumber)
     {
         var pagedResult = new PagedData<Product>()
         {
@@ -16,12 +16,17 @@ public class ProductRepository : IProductRepository
             {
                 PageSize = pageSize,
                 PageNumber = pageNumber,
-                TotalCount = _context.Products.Count()
+                TotalCount = _context.Products
+                    .Where(c => string.IsNullOrEmpty(category) || c.Categoty == category).Count()
             }
         };
         pagedResult.Data = _context.Products
+            .Where(c => string.IsNullOrEmpty(category) || c.Categoty == category)
             .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
         
         return pagedResult;
     }
+
+    public List<string> GetAllCategories() =>
+        _context.Products.Select(c => c.Categoty).Distinct().ToList();
 }

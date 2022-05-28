@@ -1,11 +1,11 @@
-﻿@model PagedData<Product>
+﻿@model ProductListViewModel
 <h1>Welcome To Example Web Application!</h1>
 
-@foreach (var item in Model.Data)
+@foreach (var item in Model.PagedProducts.Data)
 {
     <div>
         @Html.Partial("ProductSummary", item)
     </div>
 }
 
-<div class="btn-group" paged-model="Model.PageInfo" page-action="index" page-class="btn border" page-class-selected="btn btn-success"></div>
+<div class="btn-group" paged-model="Model.PagedProducts.PageInfo" page-action="index" page-class="btn border" page-class-selected="btn btn-success"></div>

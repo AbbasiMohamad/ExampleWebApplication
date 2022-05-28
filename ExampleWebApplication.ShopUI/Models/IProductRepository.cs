@@ -2,5 +2,7 @@
 
 public interface IProductRepository
 {
-    PagedData<Product> GetAll(int pageSize, int pageNumber);
+    PagedData<Product> GetAll(string category, int pageSize, int pageNumber);
+
+    List<string> GetAllCategories();
 }
