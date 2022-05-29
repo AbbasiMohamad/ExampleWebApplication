@@ -29,4 +29,6 @@ public class ProductRepository : IProductRepository
 
     public List<string> GetAllCategories() =>
         _context.Products.Select(c => c.Categoty).Distinct().ToList();
+
+    public Product GetById(int productId) => _context.Products.FirstOrDefault(c => c.Id == productId);
 }
