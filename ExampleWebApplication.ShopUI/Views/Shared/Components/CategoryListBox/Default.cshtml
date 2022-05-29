@@ -1,9 +1,15 @@
 ﻿@model List<string>
 
-
+ <a class="btn btn-warning w-100 mt-3 mb-3"
+   asp-controller="Home"
+   asp-action="Index"
+    asp-route-category=""
+   asp-route-pageNumber="1">
+       Home
+    </a>
 @foreach (var item in Model)
 {
-    <a class="btn btn-dark"
+    <a class="btn  @(item == ViewBag.Category ? "btn-success" : "btn-dark")"
    asp-controller="Home"
    asp-action="Index"
    asp-route-category=@item

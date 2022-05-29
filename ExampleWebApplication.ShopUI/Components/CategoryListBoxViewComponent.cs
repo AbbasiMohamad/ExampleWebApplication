@@ -17,6 +17,8 @@ public class CategoryListBoxViewComponent : ViewComponent
 
     public IViewComponentResult Invoke()
     {
+        var currentCategory = RouteData?.Values["category"];
+        ViewBag.Category = currentCategory; //a feature to pass dynamic data to UI
         var model = _productRepository.GetAllCategories();
         return View(model);
     }
