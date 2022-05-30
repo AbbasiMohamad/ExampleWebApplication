@@ -17,18 +17,17 @@ public class ProductRepository : IProductRepository
                 PageSize = pageSize,
                 PageNumber = pageNumber,
                 TotalCount = _context.Products
-                    .Where(c => string.IsNullOrEmpty(category) || c.Categoty == category).Count()
+                    .Where(c => string.IsNullOrEmpty(category) || c.Category.Name == category).Count()
             }
         };
         pagedResult.Data = _context.Products
-            .Where(c => string.IsNullOrEmpty(category) || c.Categoty == category)
+            .Where(c => string.IsNullOrEmpty(category) || c.Category.Name == category)
             .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
         
         return pagedResult;
     }
 
-    public List<string> GetAllCategories() =>
-        _context.Products.Select(c => c.Categoty).Distinct().ToList();
+    
 
     public Product GetById(int productId) => _context.Products.FirstOrDefault(c => c.Id == productId);
 }
