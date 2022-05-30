@@ -9,9 +9,6 @@ public class BasketSummaryViewComponent : ViewComponent
         _basketService = basketService;
     }
 
-    public IViewComponentResult Invoke()
-    {
-        
-        return View(_basketService);
-    }
+    public IViewComponentResult Invoke() =>  View(_basketService);
+    
 }
