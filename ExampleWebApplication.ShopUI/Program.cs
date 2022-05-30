@@ -22,6 +22,8 @@ builder.Services.AddSession();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<Basket>(x => SessionBasket.GetBasket(x));
 
 var app = builder.Build();
 

@@ -1,15 +1,13 @@
-﻿using ExampleWebApplication.ShopUI.Models;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-
-namespace ExampleWebApplication.ShopUI.Controllers;
+﻿namespace ExampleWebApplication.ShopUI.Controllers;
 public class BasketController : Controller
 {
-    public IProductRepository _productRepository { get; }
+    private readonly IProductRepository _productRepository;
+    private readonly Basket _sessionBasket;
 
-    public BasketController(IProductRepository productRepository)
+    public BasketController(IProductRepository productRepository, Basket sessionBasket)
     {
         _productRepository = productRepository;
+        _sessionBasket = sessionBasket;
     }
 
 
@@ -17,7 +15,7 @@ public class BasketController : Controller
     {
         var basketPageViewModel = new BasketPageViewModel
         {
-            Basket = GetBasket(),
+            Basket = _sessionBasket,
             ReturnUrl = returnUrl
         };
 
@@ -29,9 +27,7 @@ public class BasketController : Controller
     public IActionResult AddToBasket(int productId, string returnUrl)
     {
         var product = _productRepository.GetById(productId);
-        var basket = GetBasket();
-        basket.AddItem(product, 1);
-        SaveBasket(basket);
+        _sessionBasket.AddItem(product, 1);
         return RedirectToAction("Index", new { returnUrl = returnUrl });
     }
 
@@ -39,25 +35,8 @@ public class BasketController : Controller
     public IActionResult RemoveFromBasket(int productId, string returnUrl)
     {
         var product = _productRepository.GetById(productId);
-        var basket = GetBasket();
-        basket.RemoveItem(product);
-        SaveBasket(basket);
+        _sessionBasket.RemoveItem(product);
         return RedirectToAction("Index", new { returnUrl = returnUrl });
     }
 
-
-    private Basket GetBasket()
-    {
-        var basketString = HttpContext.Session.GetString("Basket");
-        if (string.IsNullOrEmpty(basketString))
-        {
-            return new Basket();
-        }
-        return JsonConvert.DeserializeObject<Basket>(basketString);
-    }
-
-    private void SaveBasket(Basket basket)
-    {
-        HttpContext.Session.SetString("Basket", JsonConvert.SerializeObject(basket));
-    }
 }
