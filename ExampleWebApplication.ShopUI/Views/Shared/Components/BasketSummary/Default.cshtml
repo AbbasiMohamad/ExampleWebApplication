@@ -1,0 +1,18 @@
+﻿@model Basket
+
+
+<table class="table table-striped table-secondary m-3">
+    <tr>
+        <td>Items in Basket:</td>
+        <td>@Model.Items.Count()</td>
+    </tr>
+    <tr>
+        <td>Total Price:</td>
+        <td>@Model.TotalPrice()</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <a asp-controller="Basket" asp-action="Index" class="btn btn-secondary">Basket</a>
+        </td>
+    </tr>
+</table>
